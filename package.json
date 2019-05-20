@@ -3,7 +3,7 @@
 	"displayName": "Fuzzy Tag For C/C++",
 	"description": "fuzzy tag search based on gtags",
 	"icon": "images/icon.png",
-	"version": "0.0.1",
+	"version": "0.0.2",
 	"publisher": "joeylu-vscode",
 	"engines": {
 		"vscode": "^1.26.0"
@@ -45,5 +45,9 @@
 	},
 	"dependencies": {
 		"child-process-promise": "^1.1.0"
-	}
-	"
+	},
+	"repository": {
+        "type": "git",
+        "url": "https://github.com/JoeyLu93/vscode-fuzzy-tag"
+    }
+}
