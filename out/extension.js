@@ -15,13 +15,21 @@ const global = new global_1.Global();
 function activate(context) {
     console.log('Congratulations, your extension "fuzzy" is now active!');
     vscode.commands.registerCommand("extension.fuzzyTag", fuzzySearch);
+    vscode.workspace.onDidSaveTextDocument(() => global.updateTags());
 }
 exports.activate = activate;
 function get_pattern(keywords) {
     var pattern = "";
     keywords.split(" ").forEach(function (w) {
         w.split("").forEach(function (c) {
-            pattern += '[' + c.toLowerCase() + c.toUpperCase() + "].*?"; // 忽略大小写，非贪婪匹配
+            // 如果是小写，则忽略大小写
+            if (c === c.toLowerCase()) {
+                pattern += '[' + c.toLowerCase() + c.toUpperCase() + "].*?"; // 非贪婪匹配
+            }
+            else // 如果是大写，则只匹配大写
+             {
+                pattern += '[' + c.toUpperCase() + "].*?"; // 非贪婪匹配
+            }
         });
     });
     return pattern;

@@ -16,8 +16,40 @@ function execute(command) {
     });
 }
 class Global {
+    constructor() {
+        this.updateInProgress = false; // 是否正在更新
+        this.waitUpdate = false; // 是否有更新任务在等待执行
+    }
     run(params) {
         return execute(params.join(' '));
+    }
+    updateTags() {
+        var configuration = vscode.workspace.getConfiguration('fuzzy-tag');
+        var shouldupdate = configuration.get('autoUpdate', true);
+        if (shouldupdate) {
+            if (this.updateInProgress) {
+                console.log("wait update");
+                this.waitUpdate = true;
+            }
+            else {
+                console.log("update now...");
+                this.updateInProgress = true;
+                var self = this;
+                this.run(['global -u']).then(() => {
+                    self.updateTagsFinish();
+                }).catch(() => {
+                    self.updateTagsFinish();
+                });
+            }
+        }
+    }
+    updateTagsFinish() {
+        this.updateInProgress = false;
+        if (this.waitUpdate) {
+            this.waitUpdate = false;
+            this.updateTags();
+        }
+        console.log("update down!");
     }
     parseLine(content) {
         try {

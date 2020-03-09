@@ -16,16 +16,52 @@ function execute(command: string): Promise<Buffer> {
 }
 
 export class Global {
+    updateInProgress: boolean = false; // 是否正在更新
+    waitUpdate: boolean = false; // 是否有更新任务在等待执行
+
     run(params: string[]): Promise<Buffer> {
         return execute(params.join(' '));
     }
 
+    updateTags() {
+        var configuration = vscode.workspace.getConfiguration('fuzzy-tag');
+        var shouldupdate = configuration.get<boolean>('autoUpdate', true);
+
+        if (shouldupdate) {
+            if (this.updateInProgress) {
+                console.log("wait update");
+
+                this.waitUpdate = true;
+            }
+            else {
+                console.log("update now...");
+
+                this.updateInProgress = true;
+                var self = this;
+                this.run(['global -u']).then(() => {
+                    self.updateTagsFinish();
+                }).catch(() => {
+                    self.updateTagsFinish();
+                });
+            }
+        }
+    }
+
+    updateTagsFinish() {
+        this.updateInProgress = false;
+        if (this.waitUpdate) {
+            this.waitUpdate = false;
+            this.updateTags();
+        }
+        console.log("update down!");
+    }
+
     parseLine(content: string): any {
         try {
-// tslint:disable-next-line: triple-equals
+            // tslint:disable-next-line: triple-equals
             if (content == null || content == "") { return null; }
 
-            var values= content.split(/ +/);
+            var values = content.split(/ +/);
             var tag = values[0];
             var line = parseInt(values[1]) - 1;
             var path = values[2].replace("%20", " ");
@@ -50,7 +86,7 @@ export class Global {
             kind = vscode.SymbolKind.Class;
         } else if (info.startsWith('enum ')) {
             kind = vscode.SymbolKind.Enum;
-// tslint:disable-next-line: triple-equals
+            // tslint:disable-next-line: triple-equals
         } else if (info.indexOf('(') != -1) {
             kind = vscode.SymbolKind.Function;
         }

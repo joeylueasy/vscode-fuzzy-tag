@@ -14,6 +14,9 @@ Refer to others' thoughts, a "fuzzy tag" extension is developed to provide a fea
 
 KeyBinding: F10
 
+Setting:
+    fuzzy-tag.autoUpdate: Whether Gtags should update automatically or not when saving file. (default: false)
+
 -----------------------------------------------------------------------------------------------------------
 
 Demo:
@@ -36,6 +39,7 @@ Demo:
 
 -----------------------------------------------------------------------------------------------------------
 
-### 1.0.0
+### 0.0.3
 
-Initial release.
+Support smart case. 
+For example, your input "abc" can match tags "abc" and "ABC", but input "Abc" will only match tag "ABC".

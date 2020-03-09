@@ -1,52 +1,65 @@
 {
-	"name": "fuzzy-tag",
-	"displayName": "Fuzzy Tag For C/C++",
-	"description": "fuzzy tag search based on gtags",
-	"icon": "images/icon.png",
-	"version": "0.0.2",
-	"publisher": "joeylu-vscode",
-	"engines": {
-		"vscode": "^1.26.0"
-	},
-	"categories": [
-		"Other"
-	],
-	"activationEvents": [
-		"onCommand:extension.fuzzyTag"
-	],
-	"main": "./out/extension.js",
-	"contributes": {
-		"commands": [
-			{
-				"command": "extension.fuzzyTag",
-				"title": "fuzzyTag"
-			}
-		],
-		"keybindings": [
-			{
-				"command": "extension.fuzzyTag",
-				"key": "f10"
-			}
-		]
-	},
-	"scripts": {
-		"vscode:prepublish": "npm run compile",
-		"compile": "tsc -p ./",
-		"watch": "tsc -watch -p ./",
-		"postinstall": "node ./node_modules/vscode/bin/install",
-		"test": "npm run compile && node ./node_modules/vscode/bin/test"
-	},
-	"devDependencies": {
-		"typescript": "^3.3.1",
-		"vscode": "^1.1.28",
-		"tslint": "^5.12.1",
-		"@types/node": "^10.12.21",
-		"@types/mocha": "^2.2.42"
-	},
-	"dependencies": {
-		"child-process-promise": "^1.1.0"
-	},
-	"repository": {
+    "name": "fuzzy-tag",
+    "displayName": "Fuzzy Tag For C/C++",
+    "description": "Fuzzy tag search based on Gtags",
+    "icon": "images/icon.png",
+    "version": "0.0.3",
+    "publisher": "joeylu-vscode",
+    "engines": {
+        "vscode": "^1.26.0"
+    },
+    "categories": [
+        "Other"
+    ],
+    "activationEvents": [
+        "onLanguage:cpp",
+        "onLanguage:c",
+        "onCommand:extension.fuzzyTag"
+    ],
+    "main": "./out/extension.js",
+    "contributes": {
+        "commands": [
+            {
+                "command": "extension.fuzzyTag",
+                "title": "fuzzyTag"
+            }
+        ],
+        "keybindings": [
+            {
+                "command": "extension.fuzzyTag",
+                "key": "f10"
+            }
+        ],
+        "configuration": {
+            "type": "object",
+            "title": "Fuzzy tag",
+            "properties": {
+                "fuzzy-tag.autoUpdate": {
+                    "type": "boolean",
+                    "default": false,
+                    "description": "Whether Gtags should update automatically or not when saving file. (default: false)"
+                }
+            }
+        }
+    },
+    "scripts": {
+        "vscode:prepublish": "npm run compile",
+        "compile": "tsc -p ./",
+        "watch": "tsc -watch -p ./",
+        "postinstall": "node ./node_modules/vscode/bin/install",
+        "test": "npm run compile && node ./node_modules/vscode/bin/test"
+    },
+    "devDependencies": {
+        "typescript": "^3.3.1",
+        "vscode": "^1.1.28",
+        "tslint": "^5.12.1",
+        "@types/node": "^10.12.21",
+        "@types/mocha": "^2.2.42"
+    },
+    "dependencies": {
+        "child-process-promise": "^1.1.0"
+    },
+    "repository": {
         "type": "git",
         "url": "https://github.com/JoeyLu93/vscode-fuzzy-tag"
     }
