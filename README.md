@@ -43,3 +43,7 @@ Demo:
 
 Support smart case. 
 For example, your input "abc" can match tags "abc" and "ABC", but input "Abc" will only match tag "ABC".
+
+### 0.0.5
+
+Fix a path bug on Mac OS.
