@@ -72,7 +72,15 @@ async function fuzzySearch() {
 
                         var tag = result["tag"];
                         var line = result["line"];
-                        var path = result["path"].split(pre_path)[1]; // 显示相对路径
+                        var path = "";
+                        if (pre_path !== undefined) // win 下
+                        {
+                            path = result["path"].split(pre_path)[1]; // 显示相对路径
+                        }
+                        else // mac下
+                        {
+                            path = result["path"].replace(long_pre_path, '');
+                        }
                         console.log(result["path"]);
                         console.log(path);
                         // var info = result["info"];
